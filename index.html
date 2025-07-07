@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест WhatsApp</title>
+</head>
+<body>
+  <h2>Отправить WhatsApp сообщение</h2>
+  <button onclick="sendMessage()">Отправить</button>
+
+  <script>
+    function sendMessage() {
+      fetch('https://script.google.com/macros/s/AKfycby-pPA4kT1qYzeOvpISBs32jqq7kHW0rnr78YQzJcVkfH_e2bhK7H47bSsgVITiLSBA/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          phone: '+77712591727' // твой номер
+        })
+      })
+      .then(response => response.text())
+      .then(data => alert("Ответ от сервера: " + data))
+      .catch(error => alert("Ошибка: " + error));
+    }
+  </script>
+</body>
+</html>

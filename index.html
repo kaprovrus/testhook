@@ -2,24 +2,37 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тест WhatsApp</title>
+  <title>Тест WhatsApp Webhook</title>
 </head>
 <body>
-  <h2>Отправить WhatsApp сообщение</h2>
+  <h2>Отправить сообщение в WhatsApp</h2>
+  <label>Номер телефона:</label><br>
+  <input type="text" id="phone" placeholder="+77712591727"><br><br>
   <button onclick="sendMessage()">Отправить</button>
+
+  <p id="response"></p>
 
   <script>
     function sendMessage() {
-      fetch('https://script.google.com/macros/s/AKfycby-pPA4kT1qYzeOvpISBs32jqq7kHW0rnr78YQzJcVkfH_e2bhK7H47bSsgVITiLSBA/exec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          phone: '+77712591727' // твой номер
-        })
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!phone) {
+        alert("Введите номер телефона!");
+        return;
+      }
+
+      fetch("https://script.google.com/macros/s/AKfycby-pPA4kT1qYzeOvpISBs32jqq7kHW0rnr78YQzJcVkfH_e2bhK7H47bSsgVITiLSBA/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ phone })
       })
-      .then(response => response.text())
-      .then(data => alert("Ответ от сервера: " + data))
-      .catch(error => alert("Ошибка: " + error));
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById("response").innerText = "Ответ: " + text;
+      })
+      .catch(err => {
+        document.getElementById("response").innerText = "Ошибка: " + err;
+      });
     }
   </script>
 </body>
